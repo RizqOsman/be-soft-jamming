@@ -90,13 +90,13 @@ be-soft-jamming
 ```
 
 ### 🧪 Dependencies (Core Tools)
-### - airodump-ng
+- airodump-ng
 
-### - aireplay-ng
+- aireplay-ng
 
-### - mdk4
+- mdk4
 
-### - hcxjamming
+- hcxjamming
 
-## - rich (console output), sqlite3, uvicorn, fastapi
+- rich (console output), sqlite3, uvicorn, fastapi
 ---
