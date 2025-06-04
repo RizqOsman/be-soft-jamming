@@ -89,6 +89,13 @@ be-soft-jamming
 ├── stop.sh
 ```
 
+### 📦 Install `btlejack`
+```bash
+git clone https://github.com/virtualabs/btlejack.git
+cd btlejack
+sudo pip install .
+```
+
 ### 🧪 Dependencies (Core Tools)
 - airodump-ng
 

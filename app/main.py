@@ -5,6 +5,7 @@ from app.routers import (
     jammer,
     logger,
     interface,
+    bluetooth
 )
 
 app = FastAPI(
@@ -19,3 +20,5 @@ app.include_router(attack.router, prefix="/attack", tags=["Attack"])
 app.include_router(jammer.router, prefix="/jammer", tags=["Jammer"])
 app.include_router(logger.router, prefix="/logs", tags=["Logs"])
 app.include_router(interface.router, prefix="/interface", tags=["Interface"])
+app.include_router(bluetooth.router, prefix="/bluetooth", tags=["Bluetooth"])
+

@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import List, Literal
+from typing import List, Literal, Optional
 
 class Target(BaseModel):
     bssid: str
@@ -34,3 +34,7 @@ class MultiJamRequest(BaseModel):
     mode: Literal["auth", "deauth", "beacon", "hcx"]
     speed: int = 1000
     iface_count: int = 2
+
+class BTJamRequest(BaseModel):
+    mode: Literal["scan", "jam"]
+    channel: Optional[int] = 37
