@@ -1,2 +1,5 @@
 /venv
 app.log
+nRF5_SDK/
+nRF5_SDK_17.1.0_ddde560.zip
+nrf-command-line-tools.tar.gz
