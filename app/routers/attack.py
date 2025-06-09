@@ -2,9 +2,23 @@ from fastapi import APIRouter
 from app.models.schema import AuthFloodRequest, DeauthRequest, HCXJammingRequest, MultiJamRequest
 from app.services import attacker
 from app.services.attacker import run_multi_interface_jamming
+from app.services.interface import load_interface_roles, get_monitor_interfaces, get_rtl_interfaces_by_mode
 
 
 router = APIRouter()
+
+@router.get("/interfaces/status")
+def interface_status():
+    roles = load_interface_roles()
+    monitor_interfaces = get_monitor_interfaces()
+    rtl_interfaces = get_rtl_interfaces_by_mode()
+
+    return{
+        "assigned_roles": roles,
+        "monitor_interfaces": monitor_interfaces,
+        "rtl_interfaces": rtl_interfaces
+
+    }
 
 @router.post("/auth_flood")
 def auth_flood(data: AuthFloodRequest):

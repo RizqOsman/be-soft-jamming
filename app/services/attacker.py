@@ -1,6 +1,9 @@
 import subprocess
 from app.services.interface import get_monitor_interfaces
 from app.services.logger import log_event
+from app.services.interface import load_interface_roles
+
+
 
 def run_auth_flood(ifaces, bssid, ssid, speed):
     for iface in ifaces:
@@ -16,13 +19,14 @@ def run_hcx_jamming(iface, channel, ssid):
     subprocess.Popen(["hcxjamming", iface, channel, ssid])
 
 def run_multi_interface_jamming(bssid, channel, ssid, mode, speed=1000, iface_count=2):
-    interfaces = get_monitor_interfaces()
-    
-    if len(interfaces) < iface_count:
-        raise Exception(f"Minimal {iface_count} interface monitor diperlukan. Ditemukan: {len(interfaces)}")
+    roles = load_interface_roles()
+    jammers = roles.get("jammers", [])
 
-    selected_ifaces = interfaces[:iface_count]
-    
+    if len(jammers) < iface_count:
+        raise Exception(f"Minimal {iface_count} interface jamming diperlukan. Ditemukan: {len(jammers)}")
+
+    selected_ifaces = jammers[:iface_count]
+
     for iface in selected_ifaces:
         log_event(f"jam_{mode}", iface, ssid)
 
