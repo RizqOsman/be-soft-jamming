@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Query
-from app.services.interface import set_monitor_mode
+from app.services.interface import set_monitor_mode, get_rtl_interfaces_by_mode
 from app.services.logger import log_event
 
 router = APIRouter()
@@ -12,3 +12,7 @@ def enable_monitor_mode(interface: str = Query(..., description="Interface WiFi 
         return {"status": "ok", "message": result["output"]}
     else:
         return {"status": "error", "detail": result["error"]}
+    
+@router.get("/summary", response_model=list)
+def interface_summary():
+    return get_rtl_interfaces_by_mode()

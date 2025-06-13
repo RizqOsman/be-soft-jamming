@@ -1,0 +1,5 @@
+{
+  "scanner_2.4g": "wlx001",
+  "scanner_5.8g": "wlx002",
+  "jammers": ["wlx003", "wlx004", "wlx005", "wlx006", "wlx007", "wlx008"]
+}
