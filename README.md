@@ -115,7 +115,7 @@ Make sure the following tools are installed on your system:
 
 
 📡 API Overview
-```bash
+
 | Endpoint           | Method | Description                           |
 | ------------------ | ------ | ------------------------------------- |
 | `/scan/interfaces` | GET    | List RTL8814AU interfaces & modes     |
@@ -123,26 +123,21 @@ Make sure the following tools are installed on your system:
 | `/scan/start/scan` | POST   | Start live scanning                   |
 | `/scan/stop/scan`  | POST   | Stop and get scan results             |
 | `/scan/status`     | GET    | Get scan progress + metadata          |
-```
 
 ⚔️ Jamming
-```bash
+
 | Endpoint                 | Method | Description                          |
 | ------------------------ | ------ | ------------------------------------ |
 | `/attack/deauth`         | POST   | Deauth specific targets              |
 | `/attack/jam/multi`      | POST   | Start jamming with N interfaces      |
 | `/jammer/status`         | GET    | List active jamming interfaces       |
 | `/jammer/stop?iface=...` | POST   | Stop jamming on a specific interface |
-```
 
 Interface Management
-```bash
 | Endpoint             | Method | Description                          |
 | -------------------- | ------ | ------------------------------------ |
 | `/interface/summary` | GET    | Get all RTL8814AU status & modes     |
 | `/interface/roles`   | GET    | Get current interface role map       |
 | `/interface/roles`   | POST   | Update interface roles (JSON format) |
 | `/interface/setup`   | POST   | Auto-activate monitor mode           |
-```
-
 ---
