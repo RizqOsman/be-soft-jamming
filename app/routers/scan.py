@@ -5,7 +5,8 @@ from app.services.scanner import (
     start_airodump_live, 
     stop_airodump, 
     start_airodump_with_duration, 
-    get_scan_progress
+    get_scan_progress,
+    get_scan_status
 )
 
 from app.models.schema import Target
@@ -37,3 +38,7 @@ def stop_scan_live():
 @router.get("/progress", response_model=dict)
 def scan_progress():
     return get_scan_progress()
+
+@router.get("/status", response_model=dict)
+def scan_status():
+    return get_scan_status()

@@ -4,7 +4,7 @@ import os
 import csv
 import json
 from datetime import datetime, timedelta
-from app.services.utils import get_interfaces
+# from app.services.utils import get_interfaces
 from app.services.utils import parse_csv
 
 SCAN_PID_FILE = "scan_pid.txt"
@@ -196,3 +196,34 @@ def get_scan_progress():
         "start": meta["start"],
         "end": meta["end"]
     }
+
+def get_scan_status():
+    if not os.path.exists(SCAN_META_FILE):
+        return {"active": False}
+
+    try:
+        with open(SCAN_META_FILE, "r") as f:
+            meta = json.load(f)
+
+        now = datetime.now()
+        start = datetime.fromisoformat(meta["start"])
+        end = datetime.fromisoformat(meta["end"])
+        pid = int(meta["pid"])
+        iface = meta["iface"]
+
+        # Cek apakah proses masih hidup
+        try:
+            subprocess.run(["kill", "-0", str(pid)], check=True)
+        except subprocess.CalledProcessError:
+            return {"active": False, "iface": iface, "progress": 100}
+
+        progress = int(((now - start).total_seconds() / (end - start).total_seconds()) * 100)
+        return {
+            "active": True,
+            "iface": iface,
+            "progress": min(progress, 100),
+            "start": meta["start"],
+            "end": meta["end"]
+        }
+    except Exception as e:
+        return {"active": False, "error": str(e)}
