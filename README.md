@@ -1,18 +1,20 @@
 # 📡 Soft Jamming API - FastAPI
 
 > A RESTful API for WiFi soft jamming using FastAPI.  
-> Designed to simplify scanning, jamming, logging, and future support for handshake capture and deauthentication attacks using multiple interfaces.
+> Designed to simplify scanning, jamming, interface management, and activity logging using multiple Alfa Network RTL8814AU interfaces.
 
 ---
 
 ## 📦 Main Features
 
-- 🔍 WiFi Network Scanning (airodump-ng)
-- ⚠️ Signal Jamming (auth, deauth, beacon, hcxjamming)
-- 🧠 Multi-interface RTL8814AU support (min. 2 at once)
-- 📑 Activity Logging to SQLite Database
-- 📂 Modular FastAPI router structure
-- 🛠 Interface Monitor Mode Activation
+- 🔍 WiFi Scanning (SSID, BSSID, Channel)
+- 🛰 Auto & Manual Client Scanning (with progress)
+- ⚔️ WiFi Jamming (auth flood, deauth, beacon spam, hcxjamming)
+- 🧠 Dynamic Multi-interface RTL8814AU Support (8 units or more)
+- 🧩 Per-interface Jamming Control (`/jammer/stop?iface=...`)
+- 🧼 Monitor Mode Auto-Setup on Startup
+- 📝 SQLite Activity Logging (via `logs.db`)
+- 🧰 Modular FastAPI Router Structure
 
 ---
 
@@ -43,7 +45,8 @@ venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### ▶ Run the Application
+### ▶ Run the Application 
+⚠️ Requires sudo to access wireless interfaces
 ```bash
 sudo uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 ```
@@ -96,14 +99,50 @@ cd btlejack
 sudo pip install .
 ```
 
-### 🧪 Dependencies (Core Tools)
-- airodump-ng
+⚙️ Supported Tools & Dependencies
+Make sure the following tools are installed on your system:
+1) aircrack-ng suite:
 
-- aireplay-ng
+- ✅ airodump-ng
 
-- mdk4
+- ✅ aireplay-ng
 
-- hcxjamming
+2) ✅ mdk4
 
-- rich (console output), sqlite3, uvicorn, fastapi
+3) ✅ hcxjamming
+
+4) ✅ python3, pip, uvicorn, fastapi, rich, sqlite3
+
+
+📡 API Overview
+```bash
+| Endpoint           | Method | Description                           |
+| ------------------ | ------ | ------------------------------------- |
+| `/scan/interfaces` | GET    | List RTL8814AU interfaces & modes     |
+| `/scan/ssid`       | GET    | Timed SSID scan (`iface`, `duration`) |
+| `/scan/start/scan` | POST   | Start live scanning                   |
+| `/scan/stop/scan`  | POST   | Stop and get scan results             |
+| `/scan/status`     | GET    | Get scan progress + metadata          |
+```
+
+⚔️ Jamming
+```bash
+| Endpoint                 | Method | Description                          |
+| ------------------------ | ------ | ------------------------------------ |
+| `/attack/deauth`         | POST   | Deauth specific targets              |
+| `/attack/jam/multi`      | POST   | Start jamming with N interfaces      |
+| `/jammer/status`         | GET    | List active jamming interfaces       |
+| `/jammer/stop?iface=...` | POST   | Stop jamming on a specific interface |
+```
+
+Interface Management
+```bash
+| Endpoint             | Method | Description                          |
+| -------------------- | ------ | ------------------------------------ |
+| `/interface/summary` | GET    | Get all RTL8814AU status & modes     |
+| `/interface/roles`   | GET    | Get current interface role map       |
+| `/interface/roles`   | POST   | Update interface roles (JSON format) |
+| `/interface/setup`   | POST   | Auto-activate monitor mode           |
+```
+
 ---
